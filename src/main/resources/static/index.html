@@ -10,16 +10,16 @@
 </style>
 </head>
 
-<body ng-app="gmaDiaries">
-	<div class="container">
-		<h1>Greeting</h1>
-		<div ng-controller="home" ng-cloak class="ng-cloak">
-			<p>This is a Gma artifact from {{gmaArtifact.date}}</p>
-			<p>Artifact: 
-				<img data-ng-src="{{'data:image/jpeg;base64,'+ gmaArtifact.image}}">
-			</p>		
-		</div>
-	</div>
+<body ng-app="gmaDiaries" ng-cloak class="ng-cloak">
+	<div ng-controller="navigation" class="container">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="active"><a href="#/">Home</a></li>
+			<li><a href="#/login">Login</a></li>
+			<li ng-show="authenticated"><a href="" ng-click="logout()">Logout</a></li>
+		</ul>
+	</div>	 
+	
+	<div ng-view class="container"></div>	
 	<script src="js/angular-bootstrap.js" type="text/javascript"></script>
 	<script src="js/gmaDiaries.js"></script>
 </body>

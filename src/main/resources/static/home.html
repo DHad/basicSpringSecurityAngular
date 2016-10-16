@@ -1,0 +1,10 @@
+<h1>Greeting</h1>
+<div ng-show="authenticated">	
+		<p>This is a Gma artifact from {{gmaArtifact.date}}</p>
+		<p>Artifact: 
+			<img style="width: 33%; height: auto" data-ng-src="{{'data:image/jpeg;base64,'+ gmaArtifact.image}}">
+		</p> 
+</div>
+<div ng-show="!authenticated">
+	<p>Login to see Gma Artifacts.</p>
+</div>
