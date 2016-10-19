@@ -3,25 +3,34 @@ angular.module('gmaDiaries', [ 'ngRoute' ])
 		
 		$routeProvider.when('/', {
 			templateUrl : 'home.html',
-			controller : 'home'
+			controller : 'home',
+			controllerAs: 'controller'
 		}).when('/login', {
 			templateUrl : 'login.html',
-			controller : 'navigation'
-		// needs error view
-		}).otherwise('/');
+			controller : 'navigation',
+			controllerAs: 'controller'
+		}).when('/error', {
+			templateUrl : 'error.html'
+/*			controller : 'error',
+			controllerAs : 'controller'*/
+		})
+		.otherwise('/');
 		
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 
 			'XMLHttpRequest';
 		
 	})
-	.controller('home', function($scope, $http) {
-		$http.get('/resource/').success(function(data) {
-			$scope.gmaArtifact = data;
+	.controller('home', function($http) {
+		var self = this;
+		$http.get('/resource/').then(function(response) {
+			self.gmaArtifact = response.data;
 		})
 	})
 	.controller('navigation',
 			
-		function($rootScope, $scope, $http, $location) {
+		function($rootScope, $http, $location) {
+		
+		var self = this;
 		
 		var authenticate = function(credentials, callback) {
 			
@@ -31,40 +40,43 @@ angular.module('gmaDiaries', [ 'ngRoute' ])
 				+ credentials.password)
 			} : {};
 			
-			$http.get('user', {headers : headers}).success(
-					function(data) {
-						if(data.name) {
+			$http.get('user', {headers : headers}).then(
+					function(response) {
+						if(response.data.name) {
 							$rootScope.authenticated = true;
 						} else {
 							$rootScope.authenticated = false;
 						}
 						callback && callback();
-					}).error(function() {
+					}, function() {
 						$rootScope.authenticated = false;
 						callback && callback();
 					});
 		}
 		
 		authenticate();
-		$scope.credentials = {};
-		$scope.login = function() {
-			authenticate($scope.credentials, function() {
+		self.credentials = {};
+		self.login = function() {
+			authenticate(self.credentials, function() {
 				if($rootScope.authenticated) {
 					$location.path("/");
-					$scope.error = false;
+					self.error = false;
 				} else {
 					$location.path("/login");
-					$scope.error = true;
+					self.error = true;
 				}
 			});			
 		};
 		
-		$scope.logout = function() {
-			$http.post('logout', {}).success(function() {
+		self.logout = function() {
+			$http.post('logout', {}).finally(function() {
 				$rootScope.authenticated = false;
 				$location.path("/");
-			}).error(function(data) {
-				$rootScope.authenticated = false;
 			});
 		}
-	});
+	})
+	.controller('error', {
+		
+	}) 
+	
+	;

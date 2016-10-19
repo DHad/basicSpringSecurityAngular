@@ -5,7 +5,7 @@
 
 	<groupId>com.app</groupId>
 	<artifactId>GmaDiariesApplication</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>gmaDiaries</name>
@@ -23,6 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<images.path>${project.basedir}/src/main/resources/static/images/</images.path>
+		<debug>false</debug>
 	</properties>
 
 	<dependencies>
@@ -129,7 +130,7 @@
                     </goals>
                     <configuration>
                         <files>
-                        	<file>${basedir}/src/main/resources/exposedCode.properties</file>                        	
+                        	<file>${basedir}/src/main/resources/system.properties</file>                        	
                         	</files>
                     </configuration>
                 </execution>
